@@ -12,22 +12,19 @@ import javax.imageio.ImageIO;
 import javax.swing.border.Border;
 
 public class Generator {
-    private int rows = -1, cols = -1, tileSize = -1, resolved = 0, weight = 1, maxEntropy = -1;
+    private int rows = -1, cols = -1, tileSize = -1, resolved = 0, maxEntropy = -1;
     private ArrayList<ArrayList<Entropy>> e = null;
     private ArrayList<Sprite> s = new ArrayList<Sprite>();
     private Sprite lastSprite = null;
     private String lastPath = "";
     private Random rand = new Random();
 
-    public Generator(int rows, int cols, int tileSize, int weight, ArrayList<Tile> tiles) {
+    public Generator(int rows, int cols, int tileSize, ArrayList<Tile> tiles) {
         this.rows = rows;
         this.cols = cols;
         this.tileSize = tileSize;
 
         this.e = new ArrayList<ArrayList<Entropy>>();
-
-        if (weight < 1)     weight = 1;
-        this.weight = weight;
 
         for (int i = 0; i < rows; i++) {
             this.e.add(new ArrayList<Entropy>(cols));
@@ -45,10 +42,7 @@ public class Generator {
                     }
                     else
                     {
-                        for (int n = 0; n < weight; n++)
-                        {
-                            t.add(new Tile(_t.getId(), _t.getVariants()));
-                        }
+                        t.add(new Tile(_t.getId(), _t.getVariants(), _t.getWeight()));
                     }
                 }
 
@@ -197,10 +191,6 @@ public class Generator {
         this.lastSprite = new Sprite(img, arr[0] * tileSize, arr[1] * tileSize);
         this.lastPath = pathString;
         return;
-    }
-
-    public int getWeight() {
-        return weight;
     }
 
     public Sprite lastSprite() {

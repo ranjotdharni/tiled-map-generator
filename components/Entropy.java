@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.TreeSet;
 
 public class Entropy {
     private Boolean isResolved = false;
@@ -28,7 +29,55 @@ public class Entropy {
 
         this.isResolved = true;
 
-        int index = random.nextInt(possibilities.size());
+
+        int total = 0, selectedWeight = -1, index = -1;
+        TreeSet<Integer> set = new TreeSet<Integer>();
+
+        for (int i = 0; i < possibilities.size(); i++) 
+        {
+            if (set.add(possibilities.get(i).getWeight()))
+            {
+                total += possibilities.get(i).getWeight();
+            }
+        }
+
+        if (set.size() == 1)
+        {
+            index = random.nextInt(possibilities.size());
+        }
+        else
+        {
+            int idx = 0;
+            index = random.nextInt(total) + 1;
+            for (Integer val : set)
+            {
+                if (index > total - val)
+                {
+                    selectedWeight = val;
+                    break;
+                }
+
+                if (idx == set.size() - 1 && selectedWeight == -1)
+                {
+                    selectedWeight = val;
+                }
+
+                idx++;
+            }
+
+            ArrayList<Integer> arr = new ArrayList<Integer>();
+            for (int k = 0; k < possibilities.size(); k++)
+            {
+                if (possibilities.get(k).getWeight() == selectedWeight)
+                {
+                    arr.add(k);
+                }
+            }
+
+            index = arr.get(random.nextInt(arr.size()));
+        }
+
+
         Tile temp = possibilities.get(index);
 
         if (temp.isBasicTile())
@@ -42,7 +91,7 @@ public class Entropy {
 
         if (!temping.isResolved()) 
         {
-            temping.resolve(random.nextInt(temping.possibleTiles()));
+            temping.resolve();
         }
 
         this.resolution = temping;
@@ -51,6 +100,7 @@ public class Entropy {
     }
 
     public int getEntropy() {
+        //All this code basically does nothing
         int temp = 0;
 
         for (int i = 0; i < possibilities.size(); i++) {
@@ -64,7 +114,7 @@ public class Entropy {
             }
         }
 
-        return temp;
+        return possibilities.size();
     }
 
     public void mustMatch(int index, String sublet) {

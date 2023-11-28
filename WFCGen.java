@@ -34,7 +34,7 @@ public class WFCGen {
         window.pack();
         window.setVisible(true);
 
-        int delaySeconds = 10;
+        int delaySeconds = 1;
         long begin = System.currentTimeMillis();
         long lastPrint = System.currentTimeMillis();
         System.out.println("Starting in " + delaySeconds + "s...");
@@ -49,16 +49,15 @@ public class WFCGen {
         }
 
         BigInteger itr = BigInteger.ZERO;
-        Random rand = new Random();
+        //Random rand = new Random();
 
         while(true) {
             Generator gen = new Generator(
             (int) Math.ceil(FRAME_WIDTH / 16), 
             (int) Math.ceil(FRAME_HEIGHT / 16), 
             16, 
-            rand.nextInt((130 - 30) + 1) + 40, 
             new ArrayList<Tile>(Arrays.asList(
-                new Tile("grass", 9), 
+                new Tile("grass", 9, 16), 
                 new BorderTile("dirt", "grass", false), 
                 new BorderTile("rock", "grass", false)
             )));
