@@ -100,21 +100,21 @@ public class Entropy {
     }
 
     public int getEntropy() {
-        //All this code basically does nothing
         int temp = 0;
 
         for (int i = 0; i < possibilities.size(); i++) {
+            //temp += possibilities.get(i).getWeight();
             if (possibilities.get(i).isBasicTile())
             {
-                temp++;
+                temp += possibilities.get(i).getWeight();
             }
             else
             {
-                temp += possibilities.get(i).possibleTiles();
+                temp += ((BorderTile) possibilities.get(i)).getFullWeight();
             }
         }
 
-        return possibilities.size();
+        return temp;
     }
 
     public void mustMatch(int index, String sublet) {

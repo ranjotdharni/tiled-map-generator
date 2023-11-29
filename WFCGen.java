@@ -34,22 +34,20 @@ public class WFCGen {
         window.pack();
         window.setVisible(true);
 
-        int delaySeconds = 1;
+        int delaySeconds = 5;
         long begin = System.currentTimeMillis();
         long lastPrint = System.currentTimeMillis();
-        System.out.println("Starting in " + delaySeconds + "s...");
 
-        while (System.currentTimeMillis() - begin < delaySeconds * 1000)
+        while (System.currentTimeMillis() - begin < (delaySeconds + 2) * 1000)
         {
             if (System.currentTimeMillis() - lastPrint > 1000)
             {
-                System.out.println("Starting in " + (int) Math.ceil(((delaySeconds * 1000) - (System.currentTimeMillis() - begin)) / 1000) + "s...");
+                System.out.println("Starting in " + (int) Math.ceil((((delaySeconds + 2) * 1000) - (System.currentTimeMillis() - begin)) / 1000) + "s...");
                 lastPrint = System.currentTimeMillis();
             }
         }
 
         BigInteger itr = BigInteger.ZERO;
-        //Random rand = new Random();
 
         while(true) {
             Generator gen = new Generator(
@@ -57,9 +55,9 @@ public class WFCGen {
             (int) Math.ceil(FRAME_HEIGHT / 16), 
             16, 
             new ArrayList<Tile>(Arrays.asList(
-                new Tile("grass", 9, 16), 
-                new BorderTile("dirt", "grass", false), 
-                new BorderTile("rock", "grass", false)
+                new Tile("grass", 1, 100), 
+                new BorderTile("dirt", "grass", false, 1), 
+                new BorderTile("rock", "grass", false, 1)
             )));
 
             canvas.addSpriteToCanvas(gen.lastSprite());
@@ -70,6 +68,13 @@ public class WFCGen {
             }
 
             itr = itr.add(BigInteger.ONE);
+
+            try {
+                Thread.sleep(5000);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+
             canvas.clearPanel();
         }
     }

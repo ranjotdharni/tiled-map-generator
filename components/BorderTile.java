@@ -20,76 +20,33 @@ public class BorderTile extends Tile {
         this.rotationsDisabled = rotationsDisabled;
         this.primaryId = primaryId;
         this.borderId = borderId;
+        instantiate();
+    }
 
-        Tile temp1 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "0", -1); //left
-        temp1.setBasicTile(false);
-        temp1.setType(new ArrayList<String>(Arrays.asList(borderId, primaryId, borderId, primaryId)));
-        tileArray.add(temp1);
-        
-        Tile temp2 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "1", -1);
-        temp2.setBasicTile(false);
-        temp2.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, primaryId, primaryId)));
-        tileArray.add(temp2);
-
-        Tile temp3 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "2", -1);
-        temp3.setBasicTile(false);
-        temp3.setType(new ArrayList<String>(Arrays.asList(primaryId, borderId, primaryId, borderId)));
-        tileArray.add(temp3);
-
-        Tile temp4 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "3", -1);
-        temp4.setBasicTile(false);
-        temp4.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, borderId, borderId)));
-        tileArray.add(temp4);
-
-        Tile temp5 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_CENTER + "_" + "0", -1); //center
-        temp5.setBasicTile(false);
-        temp5.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, primaryId, primaryId)));
-        tileArray.add(temp5);
-
-        Tile temp6 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_IN + "_" + "0", -1); //in
-        temp6.setBasicTile(false);
-        temp6.setType(new ArrayList<String>(Arrays.asList(borderId, primaryId, primaryId, primaryId)));
-        tileArray.add(temp6);
-
-        Tile temp7 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_IN + "_" + "1", -1); 
-        temp7.setBasicTile(false);
-        temp7.setType(new ArrayList<String>(Arrays.asList(primaryId, borderId, primaryId, primaryId)));
-        tileArray.add(temp7);
-
-        Tile temp8 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_IN + "_" + "2", -1); 
-        temp8.setBasicTile(false);
-        temp8.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, primaryId, borderId)));
-        tileArray.add(temp8);
-
-        Tile temp9 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_IN + "_" + "3", -1); 
-        temp9.setBasicTile(false);
-        temp9.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, borderId, primaryId)));
-        tileArray.add(temp9);
-
-        Tile temp10 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "0", -1, 2); //out
-        temp10.setBasicTile(false);
-        temp10.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, borderId, primaryId)));
-        tileArray.add(temp10);
-
-        Tile temp11 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "1", -1, 2); 
-        temp11.setBasicTile(false);
-        temp11.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, primaryId, borderId)));
-        tileArray.add(temp11);
-
-        Tile temp12 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "2", -1, 2); 
-        temp12.setBasicTile(false);
-        temp12.setType(new ArrayList<String>(Arrays.asList(primaryId, borderId, borderId, borderId)));
-        tileArray.add(temp12);
-
-        Tile temp13 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "3", -1, 2); 
-        temp13.setBasicTile(false);
-        temp13.setType(new ArrayList<String>(Arrays.asList(borderId, primaryId, borderId, borderId)));
-        tileArray.add(temp13);
+    public BorderTile(String primaryId, String borderId, Boolean rotationsDisabled, int weight) {
+        super(primaryId, -1, weight);
+        this.type = null;
+        this.isBasicTile = false;
+        this.rotationsDisabled = rotationsDisabled;
+        this.primaryId = primaryId;
+        this.borderId = borderId;
+        instantiate();
     }
 
     @Override
     public int possibleTiles() {
         return tileArray.size();
+    }
+
+    public int getFullWeight() {
+        int total = 0;
+
+        for (int i = 0; i < tileArray.size(); i++)
+        {
+            total += tileArray.get(i).getWeight();
+        }
+
+        return total;
     }
 
     public void resolve() {
@@ -174,5 +131,72 @@ public class BorderTile extends Tile {
                 itr.remove();
             }
         }
+    }
+
+    private void instantiate() {
+        Tile temp1 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "0", -1, 2); //left
+        temp1.setBasicTile(false);
+        temp1.setType(new ArrayList<String>(Arrays.asList(borderId, primaryId, borderId, primaryId)));
+        tileArray.add(temp1);
+        
+        Tile temp2 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "1", -1, 2);
+        temp2.setBasicTile(false);
+        temp2.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, primaryId, primaryId)));
+        tileArray.add(temp2);
+
+        Tile temp3 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "2", -1, 2);
+        temp3.setBasicTile(false);
+        temp3.setType(new ArrayList<String>(Arrays.asList(primaryId, borderId, primaryId, borderId)));
+        tileArray.add(temp3);
+
+        Tile temp4 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "3", -1, 2);
+        temp4.setBasicTile(false);
+        temp4.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, borderId, borderId)));
+        tileArray.add(temp4);
+
+        Tile temp5 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_CENTER + "_" + "0", -1); //center
+        temp5.setBasicTile(false);
+        temp5.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, primaryId, primaryId)));
+        tileArray.add(temp5);
+
+        Tile temp6 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_IN + "_" + "0", -1); //in
+        temp6.setBasicTile(false);
+        temp6.setType(new ArrayList<String>(Arrays.asList(borderId, primaryId, primaryId, primaryId)));
+        tileArray.add(temp6);
+
+        Tile temp7 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_IN + "_" + "1", -1); 
+        temp7.setBasicTile(false);
+        temp7.setType(new ArrayList<String>(Arrays.asList(primaryId, borderId, primaryId, primaryId)));
+        tileArray.add(temp7);
+
+        Tile temp8 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_IN + "_" + "2", -1); 
+        temp8.setBasicTile(false);
+        temp8.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, primaryId, borderId)));
+        tileArray.add(temp8);
+
+        Tile temp9 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_IN + "_" + "3", -1); 
+        temp9.setBasicTile(false);
+        temp9.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, borderId, primaryId)));
+        tileArray.add(temp9);
+
+        Tile temp10 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "0", -1, 3); //out
+        temp10.setBasicTile(false);
+        temp10.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, borderId, primaryId)));
+        tileArray.add(temp10);
+
+        Tile temp11 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "1", -1); 
+        temp11.setBasicTile(false);
+        temp11.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, primaryId, borderId)));
+        tileArray.add(temp11);
+
+        Tile temp12 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "2", -1, 3); 
+        temp12.setBasicTile(false);
+        temp12.setType(new ArrayList<String>(Arrays.asList(primaryId, borderId, borderId, borderId)));
+        tileArray.add(temp12);
+
+        Tile temp13 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "3", -1); 
+        temp13.setBasicTile(false);
+        temp13.setType(new ArrayList<String>(Arrays.asList(borderId, primaryId, borderId, borderId)));
+        tileArray.add(temp13);
     }
 }
