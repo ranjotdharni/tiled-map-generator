@@ -16,6 +16,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import components.BorderTile;
+import components.Decoration;
+import components.Decorator;
 import components.GPanel;
 import components.Generator;
 import components.Sprite;
@@ -68,6 +70,31 @@ public class WFCGen {
             }
 
             itr = itr.add(BigInteger.ONE);
+
+            try {
+                Thread.sleep(5000);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+
+            Decoration _d = new Decoration(
+                "house", 
+                1, 
+                0.15, 
+                1,
+                new ArrayList<ArrayList<Tile>>(Arrays.asList(
+                    new ArrayList<Tile>(Arrays.asList(
+                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "grass", "grass")))
+                        ))
+                ))
+            );
+
+            Decorator d = new Decorator(16, gen.getEntropyMatrix(), new ArrayList<Decoration>(Arrays.asList(_d)));
+
+            while (!d.isFinished()) {
+                d.nextRun();
+                canvas.addSpriteToCanvas(d.lastSprite());
+            }
 
             try {
                 Thread.sleep(5000);

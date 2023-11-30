@@ -42,7 +42,7 @@ public class Generator {
                     }
                     else
                     {
-                        t.add(new Tile(_t.getId(), _t.getVariants(), _t.getWeight()));
+                        t.add(new Tile(_t.getId(), _t.getVariance(), _t.getWeight()));
                     }
                 }
 
@@ -136,7 +136,7 @@ public class Generator {
 
         if (temping.isBasicTile())
         {
-            pathString = pathString + temping.getId() + rand.nextInt(temping.getVariants()) + ".png";
+            pathString = pathString + temping.getId() + rand.nextInt(temping.getVariance()) + ".png";
             try {
                 img = ImageIO.read(new File(pathString));
             }
@@ -191,6 +191,11 @@ public class Generator {
         this.lastSprite = new Sprite(img, arr[0] * tileSize, arr[1] * tileSize);
         this.lastPath = pathString;
         return;
+    }
+
+    public ArrayList<ArrayList<Entropy>> getEntropyMatrix()
+    {
+        return e;
     }
 
     public Sprite lastSprite() {
