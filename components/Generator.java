@@ -1,23 +1,20 @@
 package components;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.border.Border;
 
 public class Generator {
-    private int rows = -1, cols = -1, tileSize = -1, resolved = 0, maxEntropy = -1;
+    private int rows = -1, cols = -1, tileSize = -1, resolved = 0, maxEntropy = -1, markX = -1, markY = -1;
     private ArrayList<ArrayList<Entropy>> e = null;
     private ArrayList<Sprite> s = new ArrayList<Sprite>();
     private Sprite lastSprite = null;
     private String lastPath = "";
     private Random rand = new Random();
+    private ArrayList<String> allBorders = new ArrayList<String>();
 
     public Generator(int rows, int cols, int tileSize, ArrayList<Tile> tiles) {
         this.rows = rows;
@@ -39,6 +36,7 @@ public class Generator {
                     if (!_t.isBasicTile())
                     {
                         t.add(new BorderTile(((BorderTile) _t).getPrimaryId(), ((BorderTile) _t).getBorderID(), ((BorderTile) _t).isRotationDisabled()));
+                        allBorders.add(((BorderTile) _t).getPrimaryId());
                     }
                     else
                     {
@@ -65,12 +63,34 @@ public class Generator {
         Entropy temp = e.get(arr[0]).get(arr[1]);
 
         Tile temping = temp.resolve();
+        String exclusion = "";
+
+        if (!temping.isBasicTile()) {
+            exclusion = ((BorderTile) temping).getPrimaryId();
+            markX = arr[0];
+            markY = arr[1];
+        }
+        else
+        {
+            markX = -1;
+            markY = -1;
+        }
 
         int x = arr[0] - 1, y = arr[1] - 1;
 
         if (isValidCoord(x, y)) //topleft
         {
             this.e.get(x).get(y).mustMatch(3, temping.getType().get(0));
+
+            /*if (!exclusion.equals(""))
+            {
+                for (int m = 0; m < allBorders.size(); m++) {
+                    if (!allBorders.get(m).equals(exclusion))
+                    {
+                        this.e.get(x).get(y).cantInclude(allBorders.get(m));
+                    }
+                }
+            }*/
         }
 
         x++;
@@ -86,6 +106,16 @@ public class Generator {
         if (isValidCoord(x, y)) //topright
         {
             this.e.get(x).get(y).mustMatch(2, temping.getType().get(1));
+            
+            /*if (!exclusion.equals(""))
+            {
+                for (int m = 0; m < allBorders.size(); m++) {
+                    if (!allBorders.get(m).equals(exclusion))
+                    {
+                        this.e.get(x).get(y).cantInclude(allBorders.get(m));
+                    }
+                }
+            }*/
         }
 
         x--;
@@ -114,6 +144,16 @@ public class Generator {
         if (isValidCoord(x, y)) //bottomleft
         {
             this.e.get(x).get(y).mustMatch(1, temping.getType().get(2));
+            
+            /*if (!exclusion.equals(""))
+            {
+                for (int m = 0; m < allBorders.size(); m++) {
+                    if (!allBorders.get(m).equals(exclusion))
+                    {
+                        this.e.get(x).get(y).cantInclude(allBorders.get(m));
+                    }
+                }
+            }*/
         }
 
         x++;
@@ -129,6 +169,16 @@ public class Generator {
         if (isValidCoord(x, y)) //bottomright
         {
             this.e.get(x).get(y).mustMatch(0, temping.getType().get(3));
+            
+            /*if (!exclusion.equals(""))
+            {
+                for (int m = 0; m < allBorders.size(); m++) {
+                    if (!allBorders.get(m).equals(exclusion))
+                    {
+                        this.e.get(x).get(y).cantInclude(allBorders.get(m));
+                    }
+                }
+            }*/
         }
 
         BufferedImage img = null;
@@ -224,6 +274,14 @@ public class Generator {
                     arr[0] = i;
                     arr[1] = j;
                 }
+                /*else if ((!e.get(i).get(j).isResolved()) && markX != -1 && e.get(i).get(j).getEntropy() == low)
+                {
+                    if (Math.sqrt((Math.pow(markX - i, 2.0) + Math.pow(markY - j, 2.0))) < Math.sqrt((Math.pow(markX - arr[0], 2.0) + Math.pow(markY - arr[1], 2.0))))
+                    {
+                        arr[0] = i;
+                        arr[1] = j;
+                    }
+                }*/
             }
         }
 

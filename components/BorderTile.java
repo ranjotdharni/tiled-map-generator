@@ -133,28 +133,47 @@ public class BorderTile extends Tile {
         }
     }
 
+    @Override
+    public void mayNotInclude(String sublet) {
+        Iterator<Tile> itr = this.tileArray.iterator();
+
+        while (itr.hasNext()) {
+            Tile t = itr.next();
+
+            for (int i = 0; i < t.getType().size(); i++) {
+                if (t.getType().get(i).equals(sublet)) {
+                    itr.remove();
+                    break;
+                }
+            }
+        }
+    }
+
     private void instantiate() {
-        Tile temp1 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "0", -1, 2); //left
+        int[] leftSet = {1, 1, 1,  1};
+        leftSet[rand.nextInt(4)] = 50;
+
+        Tile temp1 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "0", -1, leftSet[0]); //left
         temp1.setBasicTile(false);
         temp1.setType(new ArrayList<String>(Arrays.asList(borderId, primaryId, borderId, primaryId)));
         tileArray.add(temp1);
         
-        Tile temp2 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "1", -1, 2);
+        Tile temp2 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "1", -1, leftSet[1]);
         temp2.setBasicTile(false);
         temp2.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, primaryId, primaryId)));
         tileArray.add(temp2);
 
-        Tile temp3 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "2", -1, 2);
+        Tile temp3 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "2", -1, leftSet[2]);
         temp3.setBasicTile(false);
         temp3.setType(new ArrayList<String>(Arrays.asList(primaryId, borderId, primaryId, borderId)));
         tileArray.add(temp3);
 
-        Tile temp4 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "3", -1, 2);
+        Tile temp4 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_LEFT + "_" + "3", -1, leftSet[3]);
         temp4.setBasicTile(false);
         temp4.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, borderId, borderId)));
         tileArray.add(temp4);
 
-        Tile temp5 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_CENTER + "_" + "0", -1); //center
+        Tile temp5 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_CENTER + "_" + "0", -1, 500); //center
         temp5.setBasicTile(false);
         temp5.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, primaryId, primaryId)));
         tileArray.add(temp5);
@@ -179,22 +198,22 @@ public class BorderTile extends Tile {
         temp9.setType(new ArrayList<String>(Arrays.asList(primaryId, primaryId, borderId, primaryId)));
         tileArray.add(temp9);
 
-        Tile temp10 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "0", -1, 3); //out
+        Tile temp10 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "0", -1); //out
         temp10.setBasicTile(false);
         temp10.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, borderId, primaryId)));
         tileArray.add(temp10);
 
-        Tile temp11 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "1", -1); 
+        Tile temp11 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "1", -1, 500); 
         temp11.setBasicTile(false);
         temp11.setType(new ArrayList<String>(Arrays.asList(borderId, borderId, primaryId, borderId)));
         tileArray.add(temp11);
 
-        Tile temp12 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "2", -1, 3); 
+        Tile temp12 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "2", -1); 
         temp12.setBasicTile(false);
         temp12.setType(new ArrayList<String>(Arrays.asList(primaryId, borderId, borderId, borderId)));
         tileArray.add(temp12);
 
-        Tile temp13 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "3", -1); 
+        Tile temp13 = new Tile(primaryId + "_" + borderId + Disqualifier.D_SUBTYPE_OUT + "_" + "3", -1, 500); 
         temp13.setBasicTile(false);
         temp13.setType(new ArrayList<String>(Arrays.asList(borderId, primaryId, borderId, borderId)));
         tileArray.add(temp13);

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+
 public class Decorator {
     private ArrayList<ArrayList<Entropy>> premature = null;
     private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
@@ -39,7 +40,7 @@ public class Decorator {
                 if (premature.get(i).get(j).getResolution().isDecorated())
                     return false;
 
-                if (!_d.requiredTileSpace().get(i - x).get(j - y).matches(premature.get(i - x).get(j - y).getResolution()))
+                if (!(_d.requiredTileSpace().get(i - x).get(j - y).matches(premature.get(i).get(j).getResolution())))
                     return false;
             }
         }
@@ -79,7 +80,7 @@ public class Decorator {
                 if (diff < 100.0 * decorations.get(i).getChance())
                 {
                     Decoration _d = decorations.get(i);
-                    String pathString = "img/" + _d.getId() + rand.nextInt(_d.getVariance());
+                    String pathString = "img/" + _d.getId() + rand.nextInt(_d.getVariance()) + ".png";
                     BufferedImage img = null;
 
                     try {
@@ -90,7 +91,7 @@ public class Decorator {
                     }
 
                     Sprite _s = new Sprite(img, x * tileSize, y * tileSize);
-                    sprites.add(_s);
+                    this.sprites.add(_s);
                     this.lastSprite = _s;
 
                     for (int u = x; u < x + _d.requiredRows(); u++)
@@ -100,7 +101,7 @@ public class Decorator {
                             premature.get(u).get(v).getResolution().makeDecorated();
                         }
                     }
-
+                    
                     break;
                 }
             }

@@ -89,5 +89,14 @@ public class Tile {
         if (!type.get(index).equals(sublet)) {
             this.possibleTiles = 0;
         }
-    } 
+    }
+    
+    public void mayNotInclude(String sublet) {
+        for (int i = 0; i < type.size(); i++) {
+            if (type.get(i).equals(sublet)) {
+                this.possibleTiles = 0;
+                break;
+            }
+        }
+    }
 }

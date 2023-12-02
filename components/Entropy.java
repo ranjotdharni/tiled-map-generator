@@ -74,6 +74,7 @@ public class Entropy {
                 }
             }
 
+            
             index = arr.get(random.nextInt(arr.size()));
         }
 
@@ -100,17 +101,20 @@ public class Entropy {
     }
 
     public int getEntropy() {
+        if (isResolved) return 0;
         int temp = 0;
 
         for (int i = 0; i < possibilities.size(); i++) {
             //temp += possibilities.get(i).getWeight();
             if (possibilities.get(i).isBasicTile())
             {
-                temp += possibilities.get(i).getWeight();
+                temp++;
+                //temp += possibilities.get(i).getWeight();
             }
             else
             {
-                temp += ((BorderTile) possibilities.get(i)).getFullWeight();
+                temp += ((BorderTile) possibilities.get(i)).possibleTiles();
+                //temp += ((BorderTile) possibilities.get(i)).getFullWeight();
             }
         }
 
@@ -139,6 +143,16 @@ public class Entropy {
                     itr.remove();
                 }
             }
+        }
+    }
+
+    public void cantInclude(String sublet) {
+        Iterator<Tile> itr = possibilities.iterator();
+
+        while (itr.hasNext()) {
+            Tile temp = itr.next();
+
+            temp.mayNotInclude(sublet);
         }
     }
 }

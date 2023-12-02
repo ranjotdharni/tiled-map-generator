@@ -15,16 +15,6 @@ public class Decoration {
         this.id = id;
         this.variance = variance;
         this.possibility = possibility;
-
-        /*for (int i = 0; i < requiredRows; i++)
-        {
-            this.requiredTileSpace.add(new ArrayList<Tile>());
-
-            for (int j = 0; j < requiredCols; j++)
-            {
-                this.requiredTileSpace.get(i).add();
-            }
-        }*/
     }
 
     public String getId() {
