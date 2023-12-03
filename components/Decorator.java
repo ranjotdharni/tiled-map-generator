@@ -41,7 +41,9 @@ public class Decorator {
                     return false;
 
                 if (!(_d.requiredTileSpace().get(i - x).get(j - y).matches(premature.get(i).get(j).getResolution())))
+                {
                     return false;
+                }
             }
         }
 

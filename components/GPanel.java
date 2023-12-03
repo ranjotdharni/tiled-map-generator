@@ -1,5 +1,7 @@
 package components;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,6 +14,7 @@ public class GPanel extends JPanel {
 
     private BufferedImage bg;
     private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+    private String modeString = "";
 
     public GPanel() {
         super();
@@ -32,6 +35,10 @@ public class GPanel extends JPanel {
             Sprite s = sprites.get(i);
             g.drawImage(s.getImage(), s.getX(), s.getY(), null);
         }
+
+        g.setFont(new Font("Arial", Font.PLAIN, 12));
+        g.setColor(Color.RED);
+        g.drawString(modeString, 15, 15);
     }
 
     public void addSpriteToCanvas(Sprite s) {
@@ -42,5 +49,9 @@ public class GPanel extends JPanel {
     public void clearPanel() {
         sprites.clear();
         repaint();
+    }
+
+    public void setMode(String _m) {
+        this.modeString = _m;
     }
 }

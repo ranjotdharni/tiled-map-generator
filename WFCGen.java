@@ -1,8 +1,11 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import components.BorderTile;
@@ -23,6 +26,7 @@ public class WFCGen {
 
     public static void main(String[] args) {
         GPanel canvas = new GPanel();
+
         JFrame window = new JFrame("Test");
         window.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
         window.add(canvas);
@@ -53,12 +57,14 @@ public class WFCGen {
         //Scanner in  = new Scanner(System.in);
 
         while(true) {
+            //canvas.setMode("Generate...");
+
             Generator gen = new Generator(
             rows, 
             cols, 
             tileSize, 
             new ArrayList<Tile>(Arrays.asList(
-                new Tile("grass", 1, 30), //The basic tile type defined for this Generator instance                                          
+                new Tile("grass", 1, 35), //The basic tile type defined for this Generator instance                                          
                 new Tile("grass", 1, 1), //This is a necessary padding tile, explanation below!!!!!!!!!
                 new BorderTile("dirt", "grass", false, 1), 
                 new BorderTile("rock", "grass", false, 1)
@@ -114,10 +120,10 @@ public class WFCGen {
 
             itr = itr.add(BigInteger.ONE);
 
-            Decoration _d = new Decoration(
+            Decoration _rockBigRock = new Decoration(
                 "bigRock", 
                 1, 
-                0.05, 
+                0.01, 
                 4,
                 new ArrayList<ArrayList<Tile>>(Arrays.asList(
                     new ArrayList<Tile>(Arrays.asList(
@@ -131,18 +137,35 @@ public class WFCGen {
                 ))
             );
 
+            Decoration _grassBigRock = new Decoration(
+                "bigRock", 
+                1, 
+                0.001, 
+                4,
+                new ArrayList<ArrayList<Tile>>(Arrays.asList(
+                    new ArrayList<Tile>(Arrays.asList(
+                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "grass", "grass"))),
+                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "grass", "grass")))
+                        )),
+                    new ArrayList<Tile>(Arrays.asList(
+                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "grass", "grass"))),
+                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "grass", "grass")))
+                        ))
+                ))
+            );
+
             Decoration _cover1 = new Decoration(
                 "cover", 
                 1, 
-                0.99, 
+                1.0, 
                 4,
                 new ArrayList<ArrayList<Tile>>(Arrays.asList(
                     new ArrayList<Tile>(Arrays.asList(
                             new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "grass", "rock"))),
-                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "rock", "grass")))
+                            new Tile(new ArrayList<String>(Arrays.asList("grass", "rock", "grass", "grass")))
                         )),
                     new ArrayList<Tile>(Arrays.asList(
-                            new Tile(new ArrayList<String>(Arrays.asList("grass", "rock", "grass", "grass"))),
+                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "rock", "grass"))),
                             new Tile(new ArrayList<String>(Arrays.asList("rock", "grass", "grass", "grass")))
                         ))
                 ))
@@ -151,22 +174,24 @@ public class WFCGen {
             Decoration _cover2 = new Decoration(
                 "cover", 
                 1, 
-                0.99, 
+                1.0, 
                 4,
                 new ArrayList<ArrayList<Tile>>(Arrays.asList(
                     new ArrayList<Tile>(Arrays.asList(
-                            new Tile(new ArrayList<String>(Arrays.asList("dirt", "grass", "grass", "grass"))),
+                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "grass", "dirt"))),
                             new Tile(new ArrayList<String>(Arrays.asList("grass", "dirt", "grass", "grass")))
+                            
                         )),
                     new ArrayList<Tile>(Arrays.asList(
                             new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "dirt", "grass"))),
-                            new Tile(new ArrayList<String>(Arrays.asList("grass", "grass", "grass", "dirt")))
+                            new Tile(new ArrayList<String>(Arrays.asList("dirt", "grass", "grass", "grass")))
                         ))
                 ))
             );
 
-            Decorator d = new Decorator(tileSize, gen.getEntropyMatrix(), new ArrayList<Decoration>(Arrays.asList(_d, _cover1, _cover2)));
+            Decorator d = new Decorator(tileSize, gen.getEntropyMatrix(), new ArrayList<Decoration>(Arrays.asList(_rockBigRock, _grassBigRock, _cover1, _cover2)));
             Sprite ref = null;
+            //canvas.setMode("Decorate/Deblemish...");
 
             while (!d.isFinished()) {
                 d.nextRun();
@@ -178,8 +203,9 @@ public class WFCGen {
                 }
             }
 
+            //canvas.setMode("Finished");
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (Exception e) {
                 // TODO: handle exception
             }
